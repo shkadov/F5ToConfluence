@@ -47,3 +47,8 @@ def remove_attachments():
         link = url + str(i).strip()
         response = requests.delete(str(link), auth=(user, pwd), headers=headers)
         print(link +" " + str(response.status_code))
+
+def upload_attachments():
+    file = open('/path/to/file', 'r')
+    for i in file:
+        response = requests.put(url, i, auth=(user,pwd))
