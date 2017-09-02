@@ -50,5 +50,6 @@ def remove_attachments():
 
 def upload_attachments():
     file = open('/path/to/file', 'r')
+    url = 'https://confluence/rest/api/content/'
     for i in file:
         response = requests.put(url, i, auth=(user,pwd))
