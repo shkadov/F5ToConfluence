@@ -1,6 +1,7 @@
 import json
 import requests
-import jira
+import os
+import os.path
 
 
 user = 'user'
@@ -49,7 +50,20 @@ def remove_attachments():
         print(link +" " + str(response.status_code))
 
 def upload_attachments():
-    file = open('/path/to/file', 'r')
-    url = 'https://confluence/rest/api/content/'
-    for i in file:
-        response = requests.put(url, i, auth=(user,pwd))
+    imagedir = 'c:\img\Common'
+    list = os.listdir(imagedir)
+    for file in list:
+        url = 'https://confluence/rest/api/content/60606188/child/attachment'
+        headers = {'X-Atlassian-Token': 'no-check'}
+        content_type = 'image/jpeg'
+        auth = ('user', 'password')
+        files = {'file': (file, open(file, 'rb'), 'image/jpeg')}
+        print(files)
+        r = requests.post(url, headers=headers, files=files, auth=auth)
+
+
+#upload_attachments()
+
+
+
+
