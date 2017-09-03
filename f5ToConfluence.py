@@ -1,3 +1,10 @@
+#---------------------------------------------------
+# Script for automatic upload F5 configuration
+# to the Confluence
+# by Denis Shkadov
+# shkadov@gmail.com
+#---------------------------------------------------
+
 import json
 import requests
 import os
@@ -5,13 +12,16 @@ import os.path
 
 
 user = 'user'
-pwd =  "password"
+pwd = 'password'
+url = 'https://confluence/rest/api/content/60606188/child/attachment'
 #Create JSON file
 def file_creation():
-    r = requests.get('https://confluence/rest/api/content/60606188/child/attachment', auth=(user, pwd), stream=True)
+    r = requests.get(url, auth=(user, pwd), stream=True)
     data = r.json()
     with open('data.json', 'w') as file:
         json.dump(data, file)
+
+#file_creation()
 
 #Get attachment's IDs from JSON file
 def get_attachmentsid():
@@ -29,8 +39,8 @@ def remove_attachments():
     for i in file:
         headers = {'Content-Type': 'application/json'}
         # response = requests.delete(url, auth=(user, pwd))
-        user = 'user'
-        pwd = "password"
+        #user = 'user'
+        #pwd = "password"
         url = "https://confluence/rest/api/content/" + str(i)
        # print(url)
         response = requests.get(url, auth=(user, pwd))
@@ -56,7 +66,7 @@ def upload_attachments():
         url = 'https://confluence/rest/api/content/60606188/child/attachment'
         headers = {'X-Atlassian-Token': 'no-check'}
         content_type = 'image/jpeg'
-        auth = ('user', 'password')
+        #auth = (user, pwd)
         files = {'file': (file, open(file, 'rb'), 'image/jpeg')}
         print(files)
         r = requests.post(url, headers=headers, files=files, auth=auth)
